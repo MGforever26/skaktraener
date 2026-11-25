@@ -410,7 +410,7 @@ function help(){
  S.assisted=true;S.hint=Math.min((S.hint||0)+1,2);
  const p=S.state.b[target.move[0]],pieceName=({p:'bonden',n:'springeren',b:'løberen',r:'tårnet',q:'dronningen',k:'kongen'})[p.toLowerCase()];
  if(S.hint===1){setMsg('Prøv at flytte '+pieceName+' fra '+SQ(target.move[0])+'.\nPlan: '+(S.mode==='deviation'?S.challenge.hint:currentLine()?.plan||'Kig efter centrum, udvikling og trusler.')+'\nTryk Vis trækket, hvis du vil se målfeltet.','warn');render();drawBoard(S.state,[target.move[0]]);}
- else{setMsg('Det næste repertoiretræk er '+san(S.state,target.move)+'. Flyt fra '+SQ(target.move[0])+' til '+SQ(target.move[1])+', eller vælg Spil trækket for mig.','warn');render();drawBoard(S.state,[target.move[0],target.move[1]]);}
+ else{setMsg((S.mode==='deviation'?'Øvelsens svar er ':'Det næste repertoiretræk er ')+san(S.state,target.move)+'. Flyt fra '+SQ(target.move[0])+' til '+SQ(target.move[1])+', eller vælg Spil trækket for mig.','warn');render();drawBoard(S.state,[target.move[0],target.move[1]]);}
 }
 function playSuggestedMove(){
  if(!S||S.busy||S.finished||S.free||S.hint<2||!turnMine()||!['drill','deviation'].includes(S.mode))return;
@@ -425,7 +425,7 @@ function initDeviation(){
  for(const token of c.leadSAN){const m=sanMove(state,token);sanHistory.push(san(state,m));last=m;state=applyMove(state,m);history.push(state);}
  S={mode:'deviation',lineId:'deviation|'+c.id,challenge:c,challengeStep:0,state,history,moveSAN:sanHistory,selected:null,last,view:null,finished:false,busy:false,pending:null,pendingPromotion:null,dev:null,free:false,assisted:false,hint:0,responses:0,correct:0,errors:0,seen:new Set()};
  P.sessions++;saveStore();$('setup').hidden=true;$('play').hidden=false;$('pendingBox').hidden=true;$('promotionBox').hidden=true;$('questionBox').hidden=true;
- render();setMsg('Modstanderen har spillet '+(sanHistory.at(-1)||'et uventet træk')+'. Find det bedste svar i denne situation. Det er en kort afvigelsesøvelse, ikke et fuldt åbningsforløb.','warn');
+ render();setMsg('Modstanderen har spillet '+(sanHistory.at(-1)||'et uventet træk')+'. Find et stærkt svar i denne situation. Det er en kort afvigelsesøvelse, ikke et fuldt åbningsforløb.','warn');
 }
 function initLearn(){
  const line=chooseLine();if(!line){showHome();return;}
